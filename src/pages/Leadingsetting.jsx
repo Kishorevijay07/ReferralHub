@@ -1,0 +1,278 @@
+import React from 'react';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import mamimage from './../images/mamimage.jpeg'
+import man2image from './../images/man2image.jpeg'
+
+const Leadingsetting = () => {
+  return (
+    <div className="bg-white shadow-md rounded-lg p-6">
+      {/* Header Tabs */}
+
+
+      {/* Campaign Name */}
+      <div className="mb-4">
+        <label htmlFor="campaignName" className="block text-gray-700 text-sm font-bold mb-2">
+          Campaign Name
+        </label>
+        <input
+          type="text"
+          id="campaignName"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          value="Summer Referral Special"
+        />
+      </div>
+
+      {/* Leads Settings */}
+      <div>
+        <h2 className="text-lg font-semibold text-gray-700 mb-4">Leads Settings</h2>
+        <div className="flex space-x-4 mb-4">
+          <div className="w-1/2">
+            <label htmlFor="rewardType" className="block text-gray-700 text-sm font-bold mb-2">
+              Reward Type *
+            </label>
+            <div className="relative">
+              <button
+                id="rewardType"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-left"
+              >
+                Discount
+              </button>
+            </div>
+          </div>
+          <div className="w-1/2">
+            <label htmlFor="rewardValue" className="block text-gray-700 text-sm font-bold mb-2">
+              Reward Value *
+            </label>
+            <input
+              type="text"
+              id="rewardValue"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              value="20%"
+            />
+          </div>
+        </div>
+
+        {/* Referred Message */}
+        <div className="mb-4">
+          <label htmlFor="referredMessage" className="block text-gray-700 text-sm font-bold mb-2">
+            Referred Message *
+          </label>
+          <textarea
+            id="referredMessage"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-24"
+            value="You've been invited! Sign up now and get 15% off your first order"
+          />
+        </div>
+
+        {/* Form Fields */}
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Form Fields *
+            <span className="ml-1">
+              <svg
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                className="w-4 h-4 inline-block align-middle"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-1 1v2a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 00-1-1h-2zM9 13a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </span>
+          </label>
+          <div className="flex items-center space-x-4 flex-wrap">
+            <label className="inline-flex items-center text-gray-700 text-sm">
+              <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-500" checked readOnly />
+              <span className="ml-2">Full Name</span>
+            </label>
+            <label className="inline-flex items-center text-gray-700 text-sm">
+              <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-500" checked readOnly />
+              <span className="ml-2">Email Address</span>
+            </label>
+            <label className="inline-flex items-center text-gray-700 text-sm">
+              <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-500" readOnly />
+              <span className="ml-2">Phone Number</span>
+            </label>
+            <label className="inline-flex items-center text-gray-700 text-sm">
+              <input type="checkbox" className="form-checkbox h-5 w-5 text-blue-500" checked readOnly />
+              <span className="ml-2">Agree to Terms & Conditions & Opt-in</span>
+            </label>
+          </div>
+        </div>
+
+        {/* Follow-Up Strategy */}
+        <div>
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Follow-Up Strategy *
+          </label>
+          <div className="rounded-md">
+            <div className="flex flex-col space-y-2">
+              {[
+                { type: 'SMS', color: 'green', text: 'SMS' },
+                { type: 'Wait', color: 'blue', text: 'Wait: 5 days' },
+                { type: 'Email', color: 'yellow', text: 'Email' },
+                { type: 'Wait', color: 'blue', text: 'Wait: 2 days' },
+                { type: 'SMS', color: 'green', text: 'SMS' },
+                { type: 'Wait', color: 'blue', text: 'Wait: 3 days' },
+                { type: 'SMS', color: 'green', text: 'SMS' },
+              ].map((step, index) => (
+                <div key={index} className="flex items-center justify-between p-3 border rounded-md bg-gray-50">
+                  <div className="flex items-center">
+                    <div className={`bg-${step.color}-100 text-${step.color}-500 rounded-full p-1 mr-2`}>
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        {step.type === 'Wait' ? (
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        ) : (
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10l-2 2m0 0l2 2m-2-2h4m5-3h2a1 1 0 011 1v3h1m-3 0h1v3a1 1 0 01-1 1h-2m-3-6h2L15 10l2 2m-2 2h4" />
+                        )}
+                      </svg>
+                    </div>
+                    <span className="text-gray-700 text-sm">{step.text}</span>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button className="text-blue-500 hover:text-blue-700 focus:outline-none">
+                      <FaEdit className="h-5 w-5" />
+                    </button>
+                    <button className="text-red-500 hover:text-red-700 focus:outline-none">
+                      <FaTrashAlt className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Add Step Button */}
+            <div className="mt-4">
+              <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none">
+                + Add Step
+              </button>
+            </div>
+          </div>
+          <h1>Leading Page Review</h1>
+          <div className="bg-gray-100 rounded-lg p-6">
+  {/* Header */}
+  <div className="flex justify-between items-center mb-8">
+  {/* Left Section (Potentially Navigation) */}
+  <div className="flex space-x-4">
+  <button className="text-gray-500 focus:outline-none">Chat with AI</button>
+  <button className="text-gray-500 focus:outline-none">My Leads</button>
+  <button className="text-gray-500 focus:outline-none">My Rewards</button>
+  </div>
+  {/* Right Section (User Info) */}
+  <div className="flex items-center space-x-3">
+  <button className="text-gray-500 focus:outline-none">
+  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  strokeWidth={2}
+  d="M4 4v5h.582m15.356 2A8.001 8.001 0 009.828 16M4 4v5h.582m15.356 2A8.001 8.001 0 009.828 16m-5.864-2a8.005 8.005 0 00-4.228-4.227M15.918 17.918a8.005 8.005 0 00-3.513-3.513M4 16v-3m15.052 5.052A8.045 8.045 0 0016.9 13.1m-1.094-8.01a7.955 7.955 0 017.064 7.064M15 13.207l-5.786 5.786a2 2 0 01-2.828-2.828l5.786-5.786m3.414.586l-1.414-1.414m2.828 0l-1.414 1.414"
+  />
+  </svg>
+  </button>
+  <div className="relative">
+  <div className="w-8 h-8 rounded-full bg-gray-300">
+  {/* Placeholder for notification */}
+  </div>
+  <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></div>
+  </div>
+  <div className="flex items-center">
+  <div className="w-8 h-8 rounded-full bg-gray-400 mr-1">
+  {/* Placeholder for user profile */}
+  </div>
+  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l8 4-8 4m-7 0l4-4-4-4m-7 0l4 4-4 4" />
+  </svg>
+  </div>
+  </div>
+  </div>
+
+  {/* Hero Section */}
+  <div className="text-center mb-8">
+  <h2 className="text-2xl font-semibold text-gray-800 mb-2">You've been invited by [Promoter Name]!</h2>
+  <p className="text-gray-600 leading-relaxed mb-4">
+  SnackNation delivers hand-picked, chef-curated snacks — from spicy masala nuts to
+  sweet jaggery treats — delivered fresh to your door in under 45 minutes.
+  </p>
+  <div className="relative inline-block mb-4">
+  <span className="bg-gradient-to-r from-blue-300 to-purple-300 text-white font-bold py-2 px-6 rounded-full shadow-md">
+  Get 20% off on your first order
+  </span>
+  <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
+  <div className="absolute -top-2 -right-2 w-4 h-4 bg-red-500 rounded-full"></div>
+  </div>
+  <div className="flex justify-center space-x-4 mt-4">
+  <div className="relative w-12 h-12 rounded-full overflow-hidden">
+  <img
+  src={mamimage}
+  alt="Promoter 1"
+  className="absolute inset-0 w-full h-full object-cover"
+  />
+  </div>
+  <div className="relative w-12 h-12 rounded-full overflow-hidden">
+  <img
+  src={man2image}
+  alt="Promoter 2"
+  className="absolute inset-0 w-full h-full object-cover"
+  />
+  </div>
+  </div>
+  </div>
+
+  {/* Form */}
+  <div className="max-w-md mx-auto mb-8">
+  <div className="mb-2">
+  <input
+  type="text"
+  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  placeholder="Full Name"
+  />
+  </div>
+  <div className="mb-4">
+  <input
+  type="email"
+  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  placeholder="Email Address"
+  />
+  </div>
+  <button className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline">
+  Claim Your Reward
+  </button>
+  </div>
+
+  {/* Instructions */}
+  <div className="max-w-md mx-auto text-left text-gray-600 text-sm">
+  <div className="flex items-center mb-2">
+  <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+  </svg>
+  Fill in the details.
+  </div>
+  <div className="flex items-center mb-2">
+  <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3m-9-3h3m-1 16h5a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  </svg>
+  Just click the Claim Your Reward button above.
+  </div>
+  <div className="flex items-center">
+  <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m0 0l-7.89 5.26a2 2 0 01-2.22 0L3 8m0 0l1.66-1.1a2 2 0 012.22 0L11 9.16a2 2 0 012.22 0L19.34 6.9a2 2 0 012.22 0l1.66 1.1m-1.66-1.1l-1.13 1.5a2 2 0 01-2.22 0L15 7.84a2 2 0 01-2.22 0L12 9.16a2 2 0 01-2.22 0L8.34 6.9a2 2 0 01-2.22 0l-1.13 1.5" />
+  </svg>
+  Once done, you'll receive your reward automatically!
+  </div>
+  </div>
+  </div>
+        </div>
+      </div>
+      <div className="mt-auto pt-4 border-t border-gray-200 flex justify-center">
+        <button className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+          Edit
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Leadingsetting;

@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+.animate-dash {
+  animation: dash 10s linear infinite;
+}
+
+.delay-1 {
+  animation-delay: 2s;
+}
