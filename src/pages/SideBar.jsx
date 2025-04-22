@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dashboard from './Dashboard';
 import Payouts from './Payouts';
-import AIAgent from './AIAgent';
+import AIAgent from './AIAgentConversation';
 import Promotors from './Promotors';
 import Leads from './Leads';
 import PlatformSetup from './Platform';

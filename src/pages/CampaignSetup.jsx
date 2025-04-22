@@ -5,7 +5,35 @@ const CampaignSetup = () => {
   const [actionType, setActionType] = useState('sms');
   const [showSecondComponent, setShowSecondComponent] = useState(false);
 
+  const [campaignName, setCampaignName] = useState('');
+  const [rewardValue, setRewardValue] = useState('');
+  const [referrerMessage, setReferrerMessage] = useState('');
+  const [followUps, setFollowUps] = useState([]);
+
+  const addFollowUp = () => {
+    if (actionType === 'wait') {
+      const days = prompt('Enter wait duration (in days):');
+      if (days) {
+        setFollowUps([...followUps, { type: 'wait', duration: parseInt(days) }]);
+      }
+    } else {
+      const message = prompt(`Enter ${actionType} message:`);
+      const phone = prompt('Enter phone number (optional):');
+      if (message) {
+        setFollowUps([...followUps, { type: actionType, message, phone }]);
+      }
+    }
+  };
+
   const handleNext = () => {
+    const newCampaign = {
+      name: campaignName,
+      rewardValue,
+      referrerMessage,
+      followUps,
+    };
+
+    console.log('✅ Campaign Created:', newCampaign);
     setShowSecondComponent(true);
   };
 
@@ -25,6 +53,8 @@ const CampaignSetup = () => {
               <label className="block font-medium text-gray-700 mb-2">Campaign Name</label>
               <input
                 type="text"
+                value={campaignName}
+                onChange={(e) => setCampaignName(e.target.value)}
                 placeholder="e.g., Summer Referral Special"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -59,6 +89,8 @@ const CampaignSetup = () => {
                 <label className="block font-medium text-gray-700 mb-2">Reward Value <span className="text-red-500">*</span></label>
                 <input
                   type="text"
+                  value={rewardValue}
+                  onChange={(e) => setRewardValue(e.target.value)}
                   placeholder="e.g., 200 points"
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -70,6 +102,8 @@ const CampaignSetup = () => {
               <label className="block font-medium text-gray-700 mb-2">Referrer Message <span className="text-red-500">*</span></label>
               <textarea
                 rows={3}
+                value={referrerMessage}
+                onChange={(e) => setReferrerMessage(e.target.value)}
                 placeholder='e.g., "Hey! Share this with your friends and get $20 for each successful signup!"'
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -82,13 +116,21 @@ const CampaignSetup = () => {
               Follow-Up Strategy <span className="text-red-500">*</span>
             </h3>
 
-            {/* Example Steps */}
-            <div className="space-y-4 mb-6">
-              <div className="bg-white w-fit px-4 py-2 rounded-md shadow border border-gray-200">📨 SMS</div>
-              <div className="bg-white w-fit px-4 py-2 rounded-md shadow border border-gray-200">⏳ Wait: 5 days</div>
+            {/* Existing Follow-Ups Preview */}
+            <div className="space-y-2 mb-6">
+              {followUps.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white w-fit px-4 py-2 rounded-md shadow border border-gray-200 text-sm"
+                >
+                  {item.type === 'wait'
+                    ? `⏳ Wait: ${item.duration} days`
+                    : `📨 ${item.type.toUpperCase()}: ${item.message}`}
+                </div>
+              ))}
             </div>
 
-            {/* Action Type Card */}
+            {/* Add Action */}
             <div className="bg-white p-4 rounded-md shadow-md border border-gray-200 max-w-md">
               <label className="block font-medium text-gray-700 mb-2">Action Type</label>
               <div className="flex items-center gap-4 mb-4">
@@ -106,36 +148,10 @@ const CampaignSetup = () => {
                 ))}
               </div>
 
-              {actionType === 'sms' || actionType === 'email' ? (
-                <>
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                    <select className="w-full border border-gray-300 rounded px-3 py-2">
-                      <option>Select</option>
-                      <option>+91 98765 43210</option>
-                    </select>
-                  </div>
-
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Follow-Up Message</label>
-                    <textarea
-                      placeholder="Enter message..."
-                      className="w-full border border-gray-300 rounded px-3 py-2"
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Duration (Days)</label>
-                  <input
-                    type="number"
-                    placeholder="e.g., 5"
-                    className="w-full border border-gray-300 rounded px-3 py-2"
-                  />
-                </div>
-              )}
-
-              <button className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md mt-2 hover:bg-blue-700 transition">
+              <button
+                onClick={addFollowUp}
+                className="w-full bg-blue-600 text-white font-semibold py-2 rounded-md mt-2 hover:bg-blue-700 transition"
+              >
                 + Add Action
               </button>
             </div>
@@ -145,9 +161,7 @@ const CampaignSetup = () => {
           <div className="bg-white mt-6 p-6 rounded-md shadow-md">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">Landing Page Preview</h3>
 
-            {/* Simulated Browser UI */}
             <div className="border rounded-md overflow-hidden shadow">
-              {/* Tabs/Header */}
               <div className="bg-gray-50 border-b px-4 py-2 flex items-center justify-between text-sm font-medium text-gray-600">
                 <div className="flex gap-6">
                   <span className="text-blue-600">Chat with AI</span>
@@ -160,17 +174,18 @@ const CampaignSetup = () => {
                 </div>
               </div>
 
-              {/* Preview Section */}
               <div className="bg-gradient-to-r from-green-50 via-white to-pink-50 p-10 text-center space-y-4">
                 <h2 className="text-xl font-semibold text-gray-800">
                   Welcome back! You're promoting: <br />
-                  <span className="text-2xl font-bold text-blue-700">SnackNation Express</span>
+                  <span className="text-2xl font-bold text-blue-700">
+                    {campaignName || 'SnackNation Express'}
+                  </span>
                 </h2>
                 <p className="text-sm text-gray-600 max-w-xl mx-auto">
                   SnackNation delivers hand-picked, chef-curated snacks — from spicy masala nuts to sweet jaggery treats — delivered fresh to your door in under 45 minutes.
                 </p>
                 <div className="bg-blue-100 text-blue-700 inline-block px-4 py-2 rounded-md font-medium">
-                  Every successful referral earns you 200 points
+                  Every successful referral earns you {rewardValue || '200'} points
                 </div>
                 <button className="bg-blue-600 text-white px-6 py-2 mt-4 rounded-md font-medium hover:bg-blue-700 transition">
                   Start Promoting & Earning

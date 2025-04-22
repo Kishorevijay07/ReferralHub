@@ -9,7 +9,7 @@ import {
   Settings,
   Users,
 } from "lucide-react";
-import { launchReferralCampaign } from "./../API/aiAgent";
+import { launchReferralCampaign } from "../API/launchReferralCampaign";
 
 const AIAgentConversation = () => {
   const [messages, setMessages] = useState([
@@ -17,28 +17,24 @@ const AIAgentConversation = () => {
       sender: "ai",
       text: "Welcome Back, Kadid! How can I help you today?",
     },
-
   ]);
-
   const [input, setInput] = useState("");
 
   const handleSendMessage = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
 
-    const newMessages = [...messages, { sender: "user", text: trimmed }];
-    setMessages(newMessages);
+    const newUserMessage = { sender: "user", text: trimmed };
+    setMessages((prev) => [...prev, newUserMessage]);
     setInput("");
 
-    // Mock AI reply after delay
+    // Mock AI reply
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text: "That is the Interesting Question..Let me think.......", 
-        }
-      ]);
+      const newAIMessage = {
+        sender: "ai",
+        text: "That’s an interesting question! Let me process that...",
+      };
+      setMessages((prev) => [...prev, newAIMessage]);
     }, 800);
   };
 
@@ -49,6 +45,59 @@ const AIAgentConversation = () => {
     }
   };
 
+  const handleQuickAction = (type) => {
+    const userPromptMap = {
+      referral: "I want to send a referral.",
+      campaign: "Help me create a new referral campaign.",
+      followup: "Set up a follow-up message for referrals.",
+      view: "Show me the referrals I've sent.",
+    };
+
+    const aiResponseMap = {
+      referral: {
+        text: "Sure! Who would you like to refer?",
+        summary: {
+          Action: "Send Referral",
+          ReferralCount: 1,
+          EstimatedReach: "Moderate",
+        },
+      },
+      campaign: {
+        text: "Let's build a new campaign! What is your campaign name?",
+        summary: {
+          Action: "Create Campaign",
+          Type: "Referral",
+          Status: "Draft",
+        },
+      },
+      followup: {
+        text: "You can automate follow-ups here. Would you like to schedule them weekly?",
+        summary: {
+          Action: "Setup Follow-up",
+          Frequency: "Weekly",
+          Channel: "Email",
+        },
+      },
+      view: {
+        text: "Here are your latest referrals sent in the last week.",
+        summary: {
+          Action: "View Referrals",
+          ReferralsSent: 7,
+          Responses: 5,
+        },
+      },
+    };
+
+    const userText = userPromptMap[type];
+    const aiReply = aiResponseMap[type];
+
+    setMessages((prev) => [
+      ...prev,
+      { sender: "user", text: userText },
+      { sender: "ai", text: aiReply.text, summary: aiReply.summary },
+    ]);
+  };
+
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md space-y-6 border">
       <div className="flex justify-between items-center mb-4">
@@ -57,14 +106,14 @@ const AIAgentConversation = () => {
         </h2>
         <button
           className="text-gray-500 hover:text-blue-600 flex items-center gap-1 text-sm"
-          onClick={() => {
+          onClick={() =>
             setMessages([
               {
                 sender: "ai",
                 text: "Welcome Back, Kadid! How can I help you today?",
               },
-            ]);
-          }}
+            ])
+          }
         >
           <RefreshCcw size={16} /> Reset
         </button>
@@ -124,16 +173,28 @@ const AIAgentConversation = () => {
       <div className="pt-6 border-t mt-8 space-y-4">
         <h3 className="font-semibold text-gray-700">Quick Links</h3>
         <div className="flex flex-wrap gap-4">
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm">
+          <button
+            onClick={() => handleQuickAction("referral")}
+            className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm"
+          >
             <Link size={16} /> SEND REFERRAL
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm">
+          <button
+            onClick={() => handleQuickAction("campaign")}
+            className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm"
+          >
             <Plus size={16} /> CREATE CAMPAIGN
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm">
+          <button
+            onClick={() => handleQuickAction("followup")}
+            className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm"
+          >
             <Settings size={16} /> FOLLOW-UP
           </button>
-          <button className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm">
+          <button
+            onClick={() => handleQuickAction("view")}
+            className="flex items-center gap-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-50 text-sm"
+          >
             <Users size={16} /> VIEW REFERRAL
           </button>
         </div>
