@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function BusinessIdentityForm({ handleNext }) {
-  return (
+  const [logoPreview, setLogoPreview] = useState(null);
 
-    
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setLogoPreview(imageUrl);
+    }
+  };
+
+  return (
     <div>
       <h2 className="text-lg font-semibold text-center mb-1">Build Your Business Identity</h2>
       <p className="text-sm text-gray-500 text-center mb-6">
@@ -11,11 +19,23 @@ export default function BusinessIdentityForm({ handleNext }) {
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="col-span-2">
-          <label className="block text-sm font-medium mb-1">Business Logo</label>
-          <button className="px-4 py-2 border rounded-md">Choose Image</button>
+        {/* Business Logo Upload */}
+        <div className="col-span-2 space-y-2">
+          <label className="block text-sm font-medium">Business Logo</label>
+          {logoPreview && (
+            <img src={logoPreview} alt="Logo Preview" className="h-20 w-20 object-cover rounded-md border" />
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 
+              file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 
+              hover:file:bg-blue-100 cursor-pointer"
+          />
         </div>
 
+        {/* Description */}
         <div className="col-span-2">
           <label className="block text-sm font-medium mb-1">Business Description</label>
           <textarea
@@ -24,6 +44,7 @@ export default function BusinessIdentityForm({ handleNext }) {
           />
         </div>
 
+        {/* Other Inputs */}
         <input className="border rounded-md p-2" placeholder="Enter business name" />
         <input className="border rounded-md p-2" placeholder="e.g., robert.fox@myemail.com" />
         <input className="border rounded-md p-2" placeholder="Enter phone no." />

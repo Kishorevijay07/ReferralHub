@@ -31,43 +31,15 @@ const leads = [
     coupon: "GETDEAL25",
     status: "Completed",
   },
-  {
-    name: "Jocelyn Levin",
-    email: "jocelynlevin@gmail.com",
-    contact: "+971554315300",
-    coupon: "FIRSTORDER10",
-    status: "Pending",
-  },
-  {
-    name: "Maren Septimus",
-    email: "marenseptimus@gmail.com",
-    contact: "+971525620832",
-    coupon: "SPECIALSAVE15",
-    status: "Completed",
-  },
-  {
-    name: "Haylie Saris",
-    email: "hayluesaris@gmail.com",
-    contact: "+971503328228",
-    coupon: "LIMITED20",
-    status: "Completed",
-  },
-  {
-    name: "Randy Herwitz",
-    email: "randyherwitz@gmail.com",
-    contact: "+971554231522",
-    coupon: "TRYUS10",
-    status: "Pending",
-  },
 ];
 
 export default function Leads() {
   const [selectedLead, setSelectedLead] = useState(null);
-  const [status, setStatus] = useState(selectedLead?.status || "Pending");
+  const [status, setStatus] = useState("Pending");
 
   const handleViewProfile = (lead) => {
     setSelectedLead(lead);
-    setStatus(lead.status); // Set dropdown to lead's status
+    setStatus(lead.status);
   };
 
   const handleBack = () => {
@@ -75,55 +47,47 @@ export default function Leads() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-6 lg:p-8 max-w-6xl mx-auto">
       {selectedLead ? (
         <>
-          {/* Back Button */}
           <button
-            className="text-sm text-blue-600 hover:underline mb-4 flex items-center"
+            className="text-sm text-blue-600 hover:underline mb-4"
             onClick={handleBack}
           >
-            &larr; Back
+            ← Back
           </button>
 
-          {/* Lead Profile Card */}
-          <div className="border-2 border-pink-400 rounded-xl p-6 flex justify-between items-start max-w-4xl mx-auto">
-            <div className="flex items-start gap-5">
-              {/* Avatar */}
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                <User className="w-8 h-8 text-blue-600" />
+          <div className="border rounded-lg p-4 md:p-6 flex flex-col md:flex-row justify-between items-start gap-6 bg-white shadow-sm">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                <User className="w-6 h-6 text-blue-600" />
               </div>
-
-              {/* Info */}
-              <div className="space-y-1">
+              <div>
                 <h3 className="text-xl font-semibold">{selectedLead.name}</h3>
-                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                <p className="text-sm text-gray-600 flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  <span>{selectedLead.email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  {selectedLead.email}
+                </p>
+                <p className="text-sm text-gray-600 flex items-center gap-2">
                   <Phone className="w-4 h-4" />
-                  <span>{selectedLead.contact}</span>
-                </div>
+                  {selectedLead.contact}
+                </p>
               </div>
             </div>
-
-            {/* Actions */}
-            <div className="flex gap-4 mt-1">
+            <div className="flex gap-3 self-center md:self-start">
               <MessageCircle className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer" />
               <Mail className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer" />
             </div>
           </div>
 
-          {/* Dropdown */}
-          <div className="max-w-4xl mx-auto mt-6">
+          <div className="mt-4">
             <label className="block text-sm font-medium mb-1 text-gray-700">
               Change Status
             </label>
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="border border-gray-300 rounded-md px-4 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="border rounded-md px-3 py-2 w-full max-w-xs text-sm"
             >
               <option value="Pending">Pending</option>
               <option value="Completed">Completed</option>
@@ -131,68 +95,59 @@ export default function Leads() {
           </div>
         </>
       ) : (
-        <div className="bg-white rounded-2xl shadow-xl p-8 space-y-6">
+        <div className="bg-white rounded-xl shadow p-4 md:p-6 space-y-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <h2 className="text-3xl font-bold text-gray-800">Leads Overview</h2>
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800">Leads</h2>
+            <div className="flex flex-col sm:flex-row items-stretch gap-2">
               <input
                 type="text"
                 placeholder="Search leads..."
-                className="input input-bordered w-64"
+                className="input input-sm input-bordered w-full sm:w-48"
               />
-              <select className="select select-bordered">
+              <select className="select select-sm select-bordered w-full sm:w-auto">
                 <option disabled selected>
                   Change Status
                 </option>
                 <option>Pending</option>
                 <option>Completed</option>
               </select>
-              <button className="btn btn-outline btn-primary">Filter</button>
+              <button className="btn btn-sm btn-outline btn-primary">Filter</button>
             </div>
           </div>
 
-          {/* Table */}
-          <div className="overflow-x-auto border rounded-xl">
-            <table className="table table-zebra">
-              <thead className="bg-base-200 text-base-content">
-                <tr>
-                  <th>
-                    <input type="checkbox" className="checkbox checkbox-sm" />
-                  </th>
-                  <th>Lead Name</th>
-                  <th>Email ID</th>
-                  <th>Contact No.</th>
-                  <th>Coupon Code</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+          {/* Table for desktop */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="table table-zebra w-full text-sm">
+              <thead>
+                <tr className="bg-gray-100 text-gray-700">
+                  <th className="text-left p-3">#</th>
+                  <th className="text-left p-3">Name</th>
+                  <th className="text-left p-3">Email</th>
+                  <th className="text-left p-3">Contact</th>
+                  <th className="text-left p-3">Coupon</th>
+                  <th className="text-left p-3">Status</th>
+                  <th className="text-left p-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {leads.map((lead, idx) => (
-                  <tr
-                    key={idx}
-                    className="hover:bg-base-100 transition-all duration-200"
-                  >
-                    <td>
-                      <input
-                        type="checkbox"
-                        className="checkbox checkbox-sm"
-                        defaultChecked={idx < 2}
-                      />
+                  <tr key={idx} className="border-b hover:bg-gray-50">
+                    <td className="p-3">
+                      <input type="checkbox" className="checkbox checkbox-sm" />
                     </td>
                     <td
-                      className="text-blue-600 font-medium hover:underline cursor-pointer"
+                      className="text-blue-600 hover:underline cursor-pointer p-3"
                       onClick={() => handleViewProfile(lead)}
                     >
                       {lead.name}
                     </td>
-                    <td className="text-gray-700">{lead.email}</td>
-                    <td className="text-gray-700">{lead.contact}</td>
-                    <td className="text-gray-600 font-mono">{lead.coupon}</td>
-                    <td>
+                    <td className="p-3">{lead.email}</td>
+                    <td className="p-3">{lead.contact}</td>
+                    <td className="p-3 font-mono text-xs">{lead.coupon}</td>
+                    <td className="p-3">
                       <span
-                        className={`badge text-sm ${
+                        className={`badge badge-sm ${
                           lead.status === "Completed"
                             ? "badge-success"
                             : "badge-warning"
@@ -201,27 +156,52 @@ export default function Leads() {
                         {lead.status}
                       </span>
                     </td>
-                    <td>
-                      <div className="flex gap-2">
-                        <div className="tooltip" data-tip="View Profile">
-                          <button
-                            className="btn btn-sm btn-ghost"
-                            onClick={() => handleViewProfile(lead)}
-                          >
-                            <FaEye className="w-4 h-4" />
-                          </button>
-                        </div>
-                        <div className="tooltip" data-tip="Send follow-up message">
-                          <button className="btn btn-sm btn-ghost">
-                            <FaRegCommentDots className="w-4 h-4" />
-                          </button>
-                        </div>
+                    <td className="p-3">
+                      <div className="flex gap-3">
+                        <FaEye
+                          className="w-4 h-4 text-gray-600 hover:text-black cursor-pointer"
+                          onClick={() => handleViewProfile(lead)}
+                        />
+                        <FaRegCommentDots className="w-4 h-4 text-gray-600 hover:text-black cursor-pointer" />
                       </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile cards */}
+          <div className="md:hidden space-y-4">
+            {leads.map((lead, idx) => (
+              <div
+                key={idx}
+                className="border rounded-lg shadow-sm p-4 bg-white space-y-2"
+              >
+                <div className="flex justify-between items-center">
+                  <h3 className="font-semibold text-gray-800">{lead.name}</h3>
+                  <span
+                    className={`badge badge-xs ${
+                      lead.status === "Completed"
+                        ? "badge-success"
+                        : "badge-warning"
+                    }`}
+                  >
+                    {lead.status}
+                  </span>
+                </div>
+                <p className="text-sm text-gray-600">{lead.email}</p>
+                <p className="text-sm text-gray-600">{lead.contact}</p>
+                <p className="text-xs text-gray-500">Coupon: {lead.coupon}</p>
+                <div className="flex justify-end gap-4 pt-2">
+                  <FaEye
+                    className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer"
+                    onClick={() => handleViewProfile(lead)}
+                  />
+                  <FaRegCommentDots className="w-5 h-5 text-gray-600 hover:text-black cursor-pointer" />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

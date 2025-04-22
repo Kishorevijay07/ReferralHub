@@ -9,6 +9,7 @@ import SideBar from './pages/SideBar';
 import CreateCampaign from './pages/CreateCampaign';
 import PromoterProfile from './pages/PromoterProfile';
 import LeadProfile from './pages/LeadProfile';
+import Setting from './pages/Setting'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -38,6 +39,7 @@ function App() {
               </Layout>
             }
           />
+           <Route path="/settings" element={<Setting />} />
           <Route
             path="/create-campaign"
             element={
